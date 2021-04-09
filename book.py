@@ -8,3 +8,6 @@ class Book:
         self.category = category
         self.subject = subject
 
+    def __str__(self) -> str:
+        return f'Author: {self.author}, Title: {self.title}, Publisher: {self.publisher}, Shelf: {self.shelf}, ' \
+               f'Category: {self.category}, Subject: {self.subject} '
