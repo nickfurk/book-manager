@@ -1,7 +1,7 @@
 # 1510-A5-Book-manager
 
-### Your name:
-### Your student number:
+### Your name: April Cheng
+### Your student number: A01261858
 
 #### ** Add any comments for me below this line **
 
