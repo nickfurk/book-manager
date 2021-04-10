@@ -100,12 +100,8 @@ def shelf_choices(book_collection):
     shelf_num = []
     for book in book_collection:
         shelf_num.append(book.shelf)
-    print(list(set(shelf_num)))
+    print((list(set(shelf_num))))
     return shelf_num
-
-
-def update_json_file():
-    pass
 
 
 def move_book(book_collection):
@@ -114,14 +110,25 @@ def move_book(book_collection):
     selected_book = filtered_list[int(user_input) - 1]
     print(f'You have selected >>> {selected_book}\n\nWhich shelf do you want to move the book to? See options below:\n')
     shelf_options = str(shelf_choices(book_collection))
-    user_shelf_input = input(f'\nType your preference:')
+    user_shelf_input = input(f'\nType in your preference: ')
     while user_shelf_input not in shelf_options:
         print(f'Input invalid, please enter the correct information')
         user_shelf_input = input(f'\nType your preference:')
+    if int(user_shelf_input) == int:
+        user_shelf_input = int(user_shelf_input)
     selected_book.shelf = user_shelf_input
-    print(f'\nBook shelf updated! >>> {selected_book}')
-    update_json_file() #COME BACK!!!!
+    print(f'\n\u001b[33;1mBook shelf updated!\u001b[0m >>> {selected_book}')
     main_menu_selection(book_collection)
+
+
+def save(book_collection):
+    output_dict = {}
+    for book in book_collection:
+        output_dict[book.id] = book.to_dict()
+
+    with open("somebooks.json", "w") as out_file:
+        dump(output_dict, out_file, indent=4)
+    print(f'Data saved. See you later!')
 
 
 def main_menu_selection(book_collection):
@@ -131,22 +138,21 @@ def main_menu_selection(book_collection):
         print(f'\nWhat would like to search for?\n')
         search_book(book_collection)
         main_menu_selection(book_collection)
-    elif user_choice == 2:
+    if user_choice == 2:
         print(f'\nLet\'s find your desired book first, before we move it. Select an attribute.\n')
         move_book(book_collection)
-    return "quit"
+    if user_choice == 3:
+        save(book_collection)
 
 
 def book_manager():
     path = pathlib.Path("somebooks.json")
     if path.exists():
         book_collection = create_book_object()
+        main_menu_selection(book_collection)
     else:
         book_collection = convert_excel_to_json("somebooks.xlsx")
-    user_choice = main_menu_selection(book_collection)
-    if user_choice == "quit":
-
-        return
+        main_menu_selection(book_collection)
 
 
 def main():
