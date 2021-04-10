@@ -1,7 +1,7 @@
 import pathlib
 import pandas
-import book
-from json import dump
+from book import Book
+from json import dump, load
 
 
 def MAIN_MENU_OPTIONS():
@@ -12,15 +12,36 @@ def SEARCH_MENU_OPTIONS():
     return ["Author", "Title", "Publisher", "Shelf", "Category", "Subject"]
 
 
+def create_book_object():
+    with open('somebooks.json') as file_object:
+        somebooks_dict = load(file_object)
+
+    book_collect = []
+    for book_num, book_dict in somebooks_dict.items():
+        book = Book(
+            author=book_dict["Author"],
+            title=book_dict["Title"],
+            publisher=book_dict["Publisher"],
+            shelf=book_dict["Shelf"],
+            category=book_dict["Category"],
+            subject=book_dict["Subject"]
+        )
+        book_collect.append(book)
+    print(book_collect)
+
+create_book_object()
+
 def dump_dictionary_to_file(converted_json):
     with open('somebooks.json', 'w+') as file_object:
-        dump(converted_json, file_object)
+        file_object.write(converted_json)
+    create_book_object()
 
 
 def convert_excel_to_json(excel_file):
     with open(excel_file):
         excel_data = pandas.read_excel(excel_file)
-        converted_json = excel_data.to_json()
+        converted_json = excel_data.T.to_json()  # using transpose
+        print("converted json type: ", type(converted_json))
         dump_dictionary_to_file(converted_json)
 
 
@@ -36,17 +57,30 @@ def choice_checker(option_list):
     return user_choice
 
 
-def ask_for_query(user_choice, menu_option):
-    user_query = input(f'Enter the {menu_option[user_choice - 1]} to search: ')
+def ask_for_query(user_chosen_category):
+    user_query = input(f'Type the {user_chosen_category} you want to search: ')
     return user_query
+
+
+dict_json = {"Author": {"0": "Apri", "1": "Sean", "2": "nina"}, "Title": {"0": "book0", "1": "book1", "2": "book2"}}
 
 
 def search_book():
     print(f'What would like to search for?')
-    user_choice = choice_checker(SEARCH_MENU_OPTIONS())
-    user_query = ask_for_query(user_choice, SEARCH_MENU_OPTIONS())
+    user_choice_num = choice_checker(SEARCH_MENU_OPTIONS())
+    user_chosen_category = SEARCH_MENU_OPTIONS()[user_choice_num - 1]
+    user_query = ask_for_query(user_chosen_category)
+    result_list = []
+    for key, value in dict_json.items():
+        if key == user_chosen_category:
+            for key_, value_ in dict_json[user_chosen_category].items():
+                if value_ == user_query:
+                    result_list.append(key_)
 
-search_book()
+    print(result_list)
+
+
+# search_book()
 
 
 def main_menu_selection():
@@ -77,6 +111,6 @@ def main():
     """Execute the program"""
     book_manager()
 
-#
+
 # if __name__ == '__main__':
 #     main()
