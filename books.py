@@ -39,8 +39,7 @@ def write_dictionary_to_file(converted_json):
 def convert_excel_to_json(excel_file):
     with open(excel_file):
         excel_data = pandas.read_excel(excel_file)
-        converted_json = excel_data.T.to_json()  # using transpose
-        print("converted json type: ", type(converted_json))
+        converted_json = excel_data.T.to_json(indent=4)  # using transpose
         book_collection = write_dictionary_to_file(converted_json)
         return book_collection
 
@@ -62,17 +61,26 @@ def ask_for_query(user_chosen_category):
     return user_query
 
 
-dict_json = {"Author": {"0": "Apri", "1": "Sean", "2": "nina"}, "Title": {"0": "book0", "1": "book1", "2": "book2"}}
-
-
 def find_query(book_collection, user_query, user_menu_choice_category):
     category = user_menu_choice_category.lower()
+    if category == "shelf":
+        user_query = int(user_query)
+
     filtered_list = []
     for book in book_collection:
-        attr = getattr(book, category)
-        if user_query in attr.lower():
+        attr = getattr(book, category)  # to get category before the .lower
+        if attr is not None and category != "shelf" and user_query in attr.lower():
+            filtered_list.append(book)
+        elif category == "shelf" and user_query == book.shelf:
             filtered_list.append(book)
     return filtered_list
+
+
+def print_filter_list(filtered_list):
+    full_info_list = [str(book) for book in filtered_list]
+    print_list = list(enumerate(full_info_list, start=1))
+    for element in print_list:
+        print(f'{element[0]}. {element[1]}')
 
 
 def search_book(book_collection):
@@ -81,9 +89,7 @@ def search_book(book_collection):
     user_menu_choice_category = SEARCH_MENU_OPTIONS()[user_menu_choice_num - 1]
     user_query = (ask_for_query(user_menu_choice_category)).lower()
     filtered_list = find_query(book_collection, user_query, user_menu_choice_category)
-
-
-# search_book()
+    print_filter_list(filtered_list)
 
 
 def main_menu_selection(book_collection):
