@@ -19,6 +19,7 @@ def create_book_object():
     book_collection = []
     for book_num, book_dict in somebooks_dict.items():
         book = Book(
+            id=book_num,
             author=book_dict["Author"],
             title=book_dict["Title"],
             publisher=book_dict["Publisher"],
@@ -48,7 +49,7 @@ def choice_validate(option_list):
     choice_list = list(enumerate(option_list, start=1))
     for choice in choice_list:
         print(f'{choice[0]}. {choice[1]}')
-    user_choice = int(input("Enter a number: "))
+    user_choice = int(input("\nEnter a number: \n"))
     number_list = [number + 1 for number in range(len(option_list))]
     while user_choice not in number_list:
         print(f'Input is not an option, please try again.')
@@ -57,7 +58,7 @@ def choice_validate(option_list):
 
 
 def ask_for_query(user_chosen_category):
-    user_query = input(f'Type the {user_chosen_category} you want to search: ')
+    user_query = input(f'Enter the {user_chosen_category} you want to search: ')
     return user_query
 
 
@@ -77,32 +78,58 @@ def find_query(book_collection, user_query, user_menu_choice_category):
 
 
 def print_filter_list(filtered_list):
+    string = f'\nNumber of results: {len(filtered_list)}\n'
+    print(f'\u001b[33;1m{string}\u001b[0m')
     full_info_list = [str(book) for book in filtered_list]
     print_list = list(enumerate(full_info_list, start=1))
     for element in print_list:
         print(f'{element[0]}. {element[1]}')
+    return print_list
 
 
 def search_book(book_collection):
-    print(f'What would like to search for?')
     user_menu_choice_num = choice_validate(SEARCH_MENU_OPTIONS())
     user_menu_choice_category = SEARCH_MENU_OPTIONS()[user_menu_choice_num - 1]
     user_query = (ask_for_query(user_menu_choice_category)).lower()
     filtered_list = find_query(book_collection, user_query, user_menu_choice_category)
-    print_filter_list(filtered_list)
+    print_list = print_filter_list(filtered_list)
+    return filtered_list
+
+
+def shelf_choices(book_collection):
+    shelf_num = []
+    for book in book_collection:
+        shelf_num.append(book.shelf)
+    print(list(set(shelf_num)))
+    return shelf_num
+
+
+def move_book(book_collection):
+    filtered_list = search_book(book_collection)
+    user_input = (input(f'\nChoose which book to move, enter number: \n'))
+    selected_book = filtered_list[int(user_input) - 1]
+    print(f'You have selected >>> {selected_book}\n\nWhich shelf do you want to move the book to? See options below:\n')
+    shelf_options = str(shelf_choices(book_collection))
+    user_shelf_input = input(f'\nType your preference:')
+    while user_shelf_input not in shelf_options:
+        print(f'Input invalid, please enter the correct information')
+        user_shelf_input = input(f'\nType your preference:')
+    selected_book.shelf = user_shelf_input
+    print(f'\nBook shelf updated! >>> {selected_book}')
+    main_menu_selection(book_collection)
 
 
 def main_menu_selection(book_collection):
-    print(f'What would you like to do?')
+    print(f'\nWhat would you like to do?\n')
     user_choice = choice_validate(MAIN_MENU_OPTIONS())
     if user_choice == 1:
+        print(f'\nWhat would like to search for?\n')
         search_book(book_collection)
+        main_menu_selection(book_collection)
     elif user_choice == 2:
-        return 2
+        print(f'\nLet\'s find your desired book first, before we move it. Select an attribute.\n')
+        move_book(book_collection)
     return "quit"
-
-
-# main_menu_selection()
 
 
 def book_manager():
