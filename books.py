@@ -49,11 +49,11 @@ def choice_validate(option_list):
     choice_list = list(enumerate(option_list, start=1))
     for choice in choice_list:
         print(f'{choice[0]}. {choice[1]}')
-    user_choice = int(input("\nEnter a number: \n"))
-    number_list = [number + 1 for number in range(len(option_list))]
+    user_choice = input("\nEnter a number: \n")
+    number_list = str([number + 1 for number in range(len(option_list))])
     while user_choice not in number_list:
         print(f'Input is not an option, please try again.')
-        user_choice = int(input("Enter a number: "))
+        user_choice = input("Enter a number: ")
     return user_choice
 
 
@@ -89,10 +89,10 @@ def print_filter_list(filtered_list):
 
 def search_book(book_collection):
     user_menu_choice_num = choice_validate(SEARCH_MENU_OPTIONS())
-    user_menu_choice_category = SEARCH_MENU_OPTIONS()[user_menu_choice_num - 1]
+    user_menu_choice_category = SEARCH_MENU_OPTIONS()[int(user_menu_choice_num) - 1]
     user_query = (ask_for_query(user_menu_choice_category)).lower()
     filtered_list = find_query(book_collection, user_query, user_menu_choice_category)
-    print_list = print_filter_list(filtered_list)
+    print_filter_list(filtered_list)
     return filtered_list
 
 
@@ -106,15 +106,18 @@ def shelf_choices(book_collection):
 
 def move_book(book_collection):
     filtered_list = search_book(book_collection)
+    while not filtered_list:
+        print('There are no results, please retry.\n')
+        filtered_list = search_book(book_collection)
     user_input = (input(f'\nChoose which book to move, enter number: \n'))
     selected_book = filtered_list[int(user_input) - 1]
     print(f'You have selected >>> {selected_book}\n\nWhich shelf do you want to move the book to? See options below:\n')
     shelf_options = str(shelf_choices(book_collection))
-    user_shelf_input = input(f'\nType in your preference: ')
+    user_shelf_input = (input(f'\nType in your preference: ')).title()
     while user_shelf_input not in shelf_options:
         print(f'Input invalid, please enter the correct information')
-        user_shelf_input = input(f'\nType your preference:')
-    if int(user_shelf_input) == int:
+        user_shelf_input = (input(f'\nType your preference:')).title()
+    if user_shelf_input.isnumeric():
         user_shelf_input = int(user_shelf_input)
     selected_book.shelf = user_shelf_input
     print(f'\n\u001b[33;1mBook shelf updated!\u001b[0m >>> {selected_book}')
@@ -134,14 +137,14 @@ def save(book_collection):
 def main_menu_selection(book_collection):
     print(f'\nWhat would you like to do?\n')
     user_choice = choice_validate(MAIN_MENU_OPTIONS())
-    if user_choice == 1:
+    if user_choice == "1":
         print(f'\nWhat would like to search for?\n')
         search_book(book_collection)
         main_menu_selection(book_collection)
-    if user_choice == 2:
+    if user_choice == "2":
         print(f'\nLet\'s find your desired book first, before we move it. Select an attribute.\n')
         move_book(book_collection)
-    if user_choice == 3:
+    if user_choice == "3":
         save(book_collection)
 
 
