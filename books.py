@@ -104,6 +104,10 @@ def shelf_choices(book_collection):
     return shelf_num
 
 
+def update_json_file():
+    pass
+
+
 def move_book(book_collection):
     filtered_list = search_book(book_collection)
     user_input = (input(f'\nChoose which book to move, enter number: \n'))
@@ -116,6 +120,7 @@ def move_book(book_collection):
         user_shelf_input = input(f'\nType your preference:')
     selected_book.shelf = user_shelf_input
     print(f'\nBook shelf updated! >>> {selected_book}')
+    update_json_file() #COME BACK!!!!
     main_menu_selection(book_collection)
 
 
@@ -139,8 +144,9 @@ def book_manager():
     else:
         book_collection = convert_excel_to_json("somebooks.xlsx")
     user_choice = main_menu_selection(book_collection)
-    while user_choice != "quit":
-        break
+    if user_choice == "quit":
+
+        return
 
 
 def main():
