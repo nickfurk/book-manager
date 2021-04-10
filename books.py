@@ -16,7 +16,7 @@ def create_book_object():
     with open('somebooks.json') as file_object:
         somebooks_dict = load(file_object)
 
-    book_collect = []
+    book_collection = []
     for book_num, book_dict in somebooks_dict.items():
         book = Book(
             author=book_dict["Author"],
@@ -24,17 +24,16 @@ def create_book_object():
             publisher=book_dict["Publisher"],
             shelf=book_dict["Shelf"],
             category=book_dict["Category"],
-            subject=book_dict["Subject"]
-        )
-        book_collect.append(book)
-    print(book_collect)
+            subject=book_dict["Subject"])
+        book_collection.append(book)
+    return book_collection
 
-create_book_object()
 
-def dump_dictionary_to_file(converted_json):
+def write_dictionary_to_file(converted_json):
     with open('somebooks.json', 'w+') as file_object:
         file_object.write(converted_json)
-    create_book_object()
+    book_collection = create_book_object()
+    return book_collection
 
 
 def convert_excel_to_json(excel_file):
@@ -42,10 +41,11 @@ def convert_excel_to_json(excel_file):
         excel_data = pandas.read_excel(excel_file)
         converted_json = excel_data.T.to_json()  # using transpose
         print("converted json type: ", type(converted_json))
-        dump_dictionary_to_file(converted_json)
+        book_collection = write_dictionary_to_file(converted_json)
+        return book_collection
 
 
-def choice_checker(option_list):
+def choice_validate(option_list):
     choice_list = list(enumerate(option_list, start=1))
     for choice in choice_list:
         print(f'{choice[0]}. {choice[1]}')
@@ -65,32 +65,36 @@ def ask_for_query(user_chosen_category):
 dict_json = {"Author": {"0": "Apri", "1": "Sean", "2": "nina"}, "Title": {"0": "book0", "1": "book1", "2": "book2"}}
 
 
-def search_book():
-    print(f'What would like to search for?')
-    user_choice_num = choice_checker(SEARCH_MENU_OPTIONS())
-    user_chosen_category = SEARCH_MENU_OPTIONS()[user_choice_num - 1]
-    user_query = ask_for_query(user_chosen_category)
-    result_list = []
-    for key, value in dict_json.items():
-        if key == user_chosen_category:
-            for key_, value_ in dict_json[user_chosen_category].items():
-                if value_ == user_query:
-                    result_list.append(key_)
+def find_query(book_collection, user_query, user_menu_choice_category):
+    category = user_menu_choice_category.lower()
+    filtered_list = []
+    for book in book_collection:
+        attr = getattr(book, category)
+        if user_query in attr.lower():
+            filtered_list.append(book)
+    return filtered_list
 
-    print(result_list)
+
+def search_book(book_collection):
+    print(f'What would like to search for?')
+    user_menu_choice_num = choice_validate(SEARCH_MENU_OPTIONS())
+    user_menu_choice_category = SEARCH_MENU_OPTIONS()[user_menu_choice_num - 1]
+    user_query = (ask_for_query(user_menu_choice_category)).lower()
+    filtered_list = find_query(book_collection, user_query, user_menu_choice_category)
 
 
 # search_book()
 
 
-def main_menu_selection():
+def main_menu_selection(book_collection):
     print(f'What would you like to do?')
-    user_choice = choice_checker(MAIN_MENU_OPTIONS())
+    user_choice = choice_validate(MAIN_MENU_OPTIONS())
     if user_choice == 1:
-        search_book()
+        search_book(book_collection)
     elif user_choice == 2:
         return 2
     return "quit"
+
 
 # main_menu_selection()
 
@@ -98,11 +102,10 @@ def main_menu_selection():
 def book_manager():
     path = pathlib.Path("somebooks.json")
     if path.exists():
-        with open(path):
-            pass
+        book_collection = create_book_object()
     else:
-        convert_excel_to_json("somebooks.xlsx")
-    user_choice = main_menu_selection()
+        book_collection = convert_excel_to_json("somebooks.xlsx")
+    user_choice = main_menu_selection(book_collection)
     while user_choice != "quit":
         break
 
@@ -112,5 +115,5 @@ def main():
     book_manager()
 
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()
