@@ -1,3 +1,5 @@
+import json
+
 class Book:
 
     def __init__(self, id: str, author: str, title: str, publisher: str, shelf: str, category: str, subject: str):
@@ -15,3 +17,12 @@ class Book:
                f'\u001b[32;1mCategory\u001b[0m: {self.category}, \u001b[32;1mSubject\u001b[0m: {self.subject}, ' \
                f'\u001b[32;1mid\u001b[0m: {self.id} '
 
+    def to_dict(self):
+        return {
+            "Author": self.author,
+            "Title": self.title,
+            "Publisher": self.publisher,
+            "Shelf": self.shelf,
+            "Category": self.category,
+            "Subject": self.subject
+        }
