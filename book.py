@@ -1,5 +1,3 @@
-import json
-
 class Book:
 
     def __init__(self, id: str, author: str, title: str, publisher: str, shelf: str, category: str, subject: str):
