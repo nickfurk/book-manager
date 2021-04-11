@@ -66,7 +66,7 @@ def find_query(book_collection, user_query, user_menu_choice_category):
     category = user_menu_choice_category.lower()
     if category == "shelf" and user_query.isnumeric():
         user_query = int(user_query)
-    else:
+    elif category == "shelf" and user_query.isnumeric() is False:
         user_query = user_query.title()
 
     filtered_list = []
@@ -108,24 +108,37 @@ def shelf_choices(book_collection):
 
 def move_book_no_result_retry(filtered_list, book_collection):
     while not filtered_list:
-        print('There are no results, please retry.\n')
+        print('There are no results, please retry so we can move the book after.\n')
         filtered_list = search_book(book_collection)
+    return filtered_list
+
+
+def input_error_retry(user_input, filtered_list):
+    while not user_input.isdigit() or int(user_input) > len(filtered_list):
+        user_input = (input(f'That is an invalid input, enter number again: \n'))
+    return user_input
+
+
+def shelf_input_retry_and_convert(user_shelf_input, shelf_options):
+    while user_shelf_input not in shelf_options:
+        print(f'Invalid shelf, please enter the correct shelf information')
+        user_shelf_input = (input(f'\nType your shelf preference:')).title()
+    if user_shelf_input.isnumeric():
+        user_shelf_input = int(user_shelf_input)
+    return user_shelf_input
 
 
 def move_book(book_collection):
     filtered_list = search_book(book_collection)
-    move_book_no_result_retry(filtered_list, book_collection)
+    new_filtered_list = move_book_no_result_retry(filtered_list, book_collection)
     user_input = (input(f'\nChoose which book to move, enter number: \n'))
-    selected_book = filtered_list[int(user_input) - 1]
+    new_user_input = input_error_retry(user_input, new_filtered_list)
+    selected_book = new_filtered_list[int(new_user_input) - 1]
     print(f'You have selected >>> {selected_book}\n\nWhich shelf do you want to move the book to? See options below:\n')
     shelf_options = str(shelf_choices(book_collection))
     user_shelf_input = (input(f'\nType in your preference: ')).title()
-    while user_shelf_input not in shelf_options:
-        print(f'Input invalid, please enter the correct information')
-        user_shelf_input = (input(f'\nType your preference:')).title()
-    if user_shelf_input.isnumeric():
-        user_shelf_input = int(user_shelf_input)
-    selected_book.shelf = user_shelf_input
+    new_user_shelf_input = shelf_input_retry_and_convert(user_shelf_input, shelf_options)
+    selected_book.shelf = new_user_shelf_input
     print(f'\n\u001b[33;1mBook shelf updated!\u001b[0m >>> {selected_book}')
     main_menu_selection(book_collection)
 
