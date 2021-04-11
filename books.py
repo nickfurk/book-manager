@@ -64,8 +64,10 @@ def ask_for_query(user_chosen_category):
 
 def find_query(book_collection, user_query, user_menu_choice_category):
     category = user_menu_choice_category.lower()
-    if category == "shelf":
+    if category == "shelf" and user_query.isnumeric():
         user_query = int(user_query)
+    else:
+        user_query = user_query.title()
 
     filtered_list = []
     for book in book_collection:
@@ -104,11 +106,15 @@ def shelf_choices(book_collection):
     return shelf_num
 
 
-def move_book(book_collection):
-    filtered_list = search_book(book_collection)
+def move_book_no_result_retry(filtered_list, book_collection):
     while not filtered_list:
         print('There are no results, please retry.\n')
         filtered_list = search_book(book_collection)
+
+
+def move_book(book_collection):
+    filtered_list = search_book(book_collection)
+    move_book_no_result_retry(filtered_list, book_collection)
     user_input = (input(f'\nChoose which book to move, enter number: \n'))
     selected_book = filtered_list[int(user_input) - 1]
     print(f'You have selected >>> {selected_book}\n\nWhich shelf do you want to move the book to? See options below:\n')
@@ -131,7 +137,7 @@ def save(book_collection):
 
     with open("somebooks.json", "w") as out_file:
         dump(output_dict, out_file, indent=4)
-    print(f'Data saved. See you later!')
+    print(f'\u001b[33;1mData saved. See you later!\u001b[0m')
 
 
 def main_menu_selection(book_collection):
