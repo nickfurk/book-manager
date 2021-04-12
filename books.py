@@ -51,7 +51,7 @@ def choice_validate(option_list):
         print(f'{choice[0]}. {choice[1]}')
     user_choice = input("\nEnter a number: \n")
     number_list = str([number + 1 for number in range(len(option_list))])
-    while user_choice not in number_list:
+    while user_choice not in number_list or user_choice == "":
         print(f'Input is not an option, please try again.')
         user_choice = input("Enter a number: ")
     return user_choice
@@ -121,7 +121,7 @@ def input_error_retry(user_input, filtered_list):
 
 def shelf_input_retry_and_convert(user_shelf_input, shelf_options):
     while user_shelf_input not in shelf_options:
-        print(f'Invalid shelf, please enter the correct shelf information')
+        print(f'Invalid shelf, please enter the correct shelf information.')
         user_shelf_input = (input(f'\nType your shelf preference:')).title()
     if user_shelf_input.isnumeric():
         user_shelf_input = int(user_shelf_input)
@@ -150,7 +150,7 @@ def save(book_collection):
 
     with open("somebooks.json", "w") as out_file:
         dump(output_dict, out_file, indent=4)
-    print(f'\u001b[33;1mData saved. See you later!\u001b[0m')
+    print(f'\n\u001b[33;1mData saved. See you later!\u001b[0m\n')
 
 
 def main_menu_selection(book_collection):
@@ -167,7 +167,7 @@ def main_menu_selection(book_collection):
         save(book_collection)
 
 
-def book_manager():
+def check_for_file():
     path = pathlib.Path("somebooks.json")
     if path.exists():
         book_collection = create_book_object()
@@ -179,7 +179,7 @@ def book_manager():
 
 def main():
     """Execute the program"""
-    book_manager()
+    check_for_file()
 
 
 if __name__ == '__main__':
