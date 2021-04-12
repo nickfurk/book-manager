@@ -4,6 +4,14 @@ from book import Book
 from json import dump, load
 
 
+def JSON_FILENAME():
+    return "somebooks.json"
+
+
+def EXCEL_FILENAME():
+    return "somebooks.xlsx"
+
+
 def MAIN_MENU_OPTIONS():
     return ["Search for a book", "Move a book", "Quit"]
 
@@ -31,7 +39,7 @@ def create_book_object():
 
 
 def write_dictionary_to_file(converted_json):
-    with open('somebooks.json', 'w+') as file_object:
+    with open(JSON_FILENAME(), 'w+') as file_object:
         file_object.write(converted_json)
     book_collection = create_book_object()
     return book_collection
@@ -114,7 +122,7 @@ def move_book_no_result_retry(filtered_list, book_collection):
 
 
 def input_error_retry(user_input, filtered_list):
-    while not user_input.isdigit() or int(user_input) > len(filtered_list):
+    while not user_input.isdigit() or int(user_input) > len(filtered_list) or user_input == "0":
         user_input = (input(f'That is an invalid input, enter number again: \n'))
     return user_input
 
@@ -148,12 +156,24 @@ def save(book_collection):
     for book in book_collection:
         output_dict[book.id] = book.to_dict()
 
-    with open("somebooks.json", "w") as out_file:
+    with open(JSON_FILENAME(), "w") as out_file:
         dump(output_dict, out_file, indent=4)
     print(f'\n\u001b[33;1mData saved. See you later!\u001b[0m\n')
 
 
-def main_menu_selection(book_collection):
+def main_menu_selection(book_collection: list):
+    """Main menu selection.
+
+    Function asks the user what they would like to do and calls choice_validate function to get user input.
+    After the user inputs a number between 1 to 3 inclusive, it takes the user down different paths.
+
+    :param book_collection: a list with book objects
+    :precondition: book_collection must be a list with book objects
+    :postcondition: correctly calls different functions depending what the user selects. If select choice "1",
+                    function will call search_book and then main_menu_selection. If select choice "2", function
+                    will call move_book. If select choice "3" function will call save.
+    :return: None
+    """
     print(f'\nWhat would you like to do?\n')
     user_choice = choice_validate(MAIN_MENU_OPTIONS())
     if user_choice == "1":
@@ -167,19 +187,36 @@ def main_menu_selection(book_collection):
         save(book_collection)
 
 
-def check_for_file():
-    path = pathlib.Path("somebooks.json")
+# def check_for_file():
+#     path = pathlib.Path("somebooks.json")
+#     if path.exists():
+#         book_collection = create_book_object()
+#         main_menu_selection(book_collection)
+#     else:
+#         book_collection = convert_excel_to_json("somebooks.xlsx")
+#         main_menu_selection(book_collection)
+
+def get_book_collection() -> list:
+    """Get a list of book objects.
+
+    Function checks if a json file is available. If it is the it will call create_book_object() function,
+    if not, it will call a convert_excel_to_json function. A list of book object returns.
+
+    :return: a list of book objects
+    """
+    path = pathlib.Path(JSON_FILENAME())
     if path.exists():
         book_collection = create_book_object()
-        main_menu_selection(book_collection)
     else:
-        book_collection = convert_excel_to_json("somebooks.xlsx")
-        main_menu_selection(book_collection)
+        book_collection = convert_excel_to_json(EXCEL_FILENAME())
+    return book_collection
 
 
 def main():
     """Execute the program"""
-    check_for_file()
+    # check_for_file()
+    book_collection = get_book_collection()
+    main_menu_selection(book_collection)
 
 
 if __name__ == '__main__':
