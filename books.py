@@ -20,12 +20,21 @@ def SEARCH_MENU_OPTIONS():
     return ["Author", "Title", "Publisher", "Shelf", "Category", "Subject"]
 
 
+def change_none_to_string(somebooks_dict):
+    for book_num, book_dict in somebooks_dict.items():
+        if book_dict["Publisher"] is None:
+            book_dict["Publisher"] = "None"
+    return somebooks_dict
+
+
 def create_book_object():
     with open(JSON_FILENAME()) as file_object:
         somebooks_dict = load(file_object)
 
+    updated_somebooks_dict = change_none_to_string(somebooks_dict)
+
     book_collection = []
-    for book_num, book_dict in somebooks_dict.items():
+    for book_num, book_dict in updated_somebooks_dict.items():
         book = Book(
             id=book_num,
             author=book_dict["Author"],
@@ -36,6 +45,19 @@ def create_book_object():
             subject=book_dict["Subject"])
         book_collection.append(book)
     return book_collection
+
+    # book_collection = []
+    # for book_num, book_dict in somebooks_dict.items():
+    #     book = Book(
+    #         id=book_num,
+    #         author=book_dict["Author"],
+    #         title=book_dict["Title"],
+    #         publisher=book_dict["Publisher"],
+    #         shelf=book_dict["Shelf"],
+    #         category=book_dict["Category"],
+    #         subject=book_dict["Subject"])
+    #     book_collection.append(book)
+    # return book_collection
 
 
 def write_dictionary_to_file(converted_json):
@@ -67,6 +89,8 @@ def choice_validate(option_list):
 
 def ask_for_query(user_chosen_category):
     user_query = input(f'Enter the {user_chosen_category} you want to search: ')
+    while user_query == "":
+        user_query = input(f'Invalid entry, enter the {user_chosen_category} you want to search: ')
     return user_query
 
 
@@ -137,16 +161,28 @@ def shelf_input_retry_and_convert(user_shelf_input, shelf_options):
 
 
 def move_book(book_collection):
+    """Move book feature flow.
+
+    Function acts as a flow for the move book feature. A series of functions are called to accomplish this.
+    At the very end, the object book shelf gets updated with the new shelf information. Functions that are
+    called are related to finding a filtered list of books, choosing which book to move, choose which shelf
+    to move the book to, update book object with the new shelf information, and then returning to the main menu.
+
+    :param book_collection: a list
+    :precondition: book_collection has to be a list of object book
+    :postcondition: correctly call functions related to the move book feature and updates the object book shelf
+    :return: None
+    """
     filtered_list = search_book(book_collection)
-    new_filtered_list = move_book_no_result_retry(filtered_list, book_collection)
+    verify_filtered_list = move_book_no_result_retry(filtered_list, book_collection)
     user_input = (input(f'\nChoose which book to move, enter number: \n'))
-    new_user_input = input_error_retry(user_input, new_filtered_list)
-    selected_book = new_filtered_list[int(new_user_input) - 1]
+    verify_user_input = input_error_retry(user_input, verify_filtered_list)
+    selected_book = verify_filtered_list[int(verify_user_input) - 1]
     print(f'You have selected >>> {selected_book}\n\nWhich shelf do you want to move the book to? See options below:\n')
     shelf_options = str(shelf_choices(book_collection))
     user_shelf_input = (input(f'\nType in your preference: ')).title()
-    new_user_shelf_input = shelf_input_retry_and_convert(user_shelf_input, shelf_options)
-    selected_book.shelf = new_user_shelf_input
+    verify_user_shelf_input = shelf_input_retry_and_convert(user_shelf_input, shelf_options)
+    selected_book.shelf = verify_user_shelf_input
     print(f'\n\u001b[33;1mBook shelf updated!\u001b[0m >>> {selected_book}')
     main_menu_selection(book_collection)
 
