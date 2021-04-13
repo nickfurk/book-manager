@@ -121,7 +121,18 @@ def print_filter_list(filtered_list):
     return print_list
 
 
-def search_book(book_collection):
+def search_book(book_collection: list) -> list:
+    """Search book(s) and return filtered book list.
+
+    Function acts as a flow for the search book feature. The functions calls choice_validate to ensure that
+    user's input is an available category choice, then calls ask_for_query for the user to input their query,
+    find_query is called next to return the filtered list of Book object(s).
+
+    :param book_collection: a list
+    :precondition: book_collection has to be a list with Book objects
+    :postcondition: correctly returns a filtered list of Book objects based on user's chosen category choice and query
+    :return: a list of filtered Book object(s)
+    """
     user_menu_choice_num = choice_validate(SEARCH_MENU_OPTIONS())
     user_menu_choice_category = SEARCH_MENU_OPTIONS()[int(user_menu_choice_num) - 1]
     user_query = (ask_for_query(user_menu_choice_category)).lower()
