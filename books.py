@@ -130,7 +130,17 @@ def search_book(book_collection):
     return filtered_list
 
 
-def shelf_choices(book_collection):
+def shelf_choices(book_collection: list) -> list:
+    """Return list of book.shelf.
+
+    Function takes a book_collection list that has all the Book objects and then creates another list with only
+    book.shelf.
+
+    :param book_collection: a list
+    :preconditon: book_collection is a list of Book objects
+    :postcondition: correctly return a list of Book.shelf from all the Book in book_collection
+    :return: a list of book.shelf
+    """
     shelf_num = []
     for book in book_collection:
         shelf_num.append(book.shelf)
@@ -139,15 +149,15 @@ def shelf_choices(book_collection):
 
 
 def move_book_no_result_retry(filtered_list: list, book_collection: list) -> list:
-    """Check if filtered list has book object(s).
+    """Check if filtered list has Book object(s).
 
     Function checks if filtered list has book object(s), if not will ask the user to re-enter input, else returns
     filtered list.
 
     :param filtered_list: a list
     :param book_collection: a list
-    :precondition: filtered_list is a list with book object(s)
-    :precondition: book_collect is a list with all book objects
+    :precondition: filtered_list is a list with Book object(s)
+    :precondition: book_collect is a list with all Book objects
     :postcondition: correctly asks the user to re-enter if precondition for filtered_list is not met
     :return: a list with book object(s)
     """
