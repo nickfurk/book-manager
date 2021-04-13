@@ -21,7 +21,7 @@ def SEARCH_MENU_OPTIONS():
 
 
 def create_book_object():
-    with open('somebooks.json') as file_object:
+    with open(JSON_FILENAME()) as file_object:
         somebooks_dict = load(file_object)
 
     book_collection = []
@@ -151,14 +151,37 @@ def move_book(book_collection):
     main_menu_selection(book_collection)
 
 
-def save(book_collection):
-    output_dict = {}
-    for book in book_collection:
-        output_dict[book.id] = book.to_dict()
+def dump_dict_to_file(output_dict: dict):
+    """Dump dictionary to a json file.
 
+    :param output_dict: a dictionary
+    :precondition: output_dict is a dictionary of the books
+    :postcondition: correctly dump the output_dict dictionary into the json file in json format
+    :return:None
+    """
     with open(JSON_FILENAME(), "w") as out_file:
         dump(output_dict, out_file, indent=4)
     print(f'\n\u001b[33;1mData saved. See you later!\u001b[0m\n')
+
+
+def list_to_dict(book_collection: list):
+    """Convert a list with objects into a dictionary.
+
+    Function converts a list with objects into a dictionary, then calls dump_dict_to_file function.
+
+    :param book_collection: a list with book objects
+    :precondition: book_collection has to be a list with book objects
+    :postcondition: correctly converts a list with book objects into a dictionary
+    :return: None
+    """
+    output_dict = {}
+    for book in book_collection:
+        output_dict[book.id] = book.to_dict()
+    dump_dict_to_file(output_dict)
+
+    # with open(JSON_FILENAME(), "w") as out_file:
+    #     dump(output_dict, out_file, indent=4)
+    # print(f'\n\u001b[33;1mData saved. See you later!\u001b[0m\n')
 
 
 def main_menu_selection(book_collection: list):
@@ -184,7 +207,7 @@ def main_menu_selection(book_collection: list):
         print(f'\nLet\'s find your desired book first, before we move it. Select an attribute.\n')
         move_book(book_collection)
     if user_choice == "3":
-        save(book_collection)
+        list_to_dict(book_collection)
 
 
 # def check_for_file():
