@@ -138,7 +138,19 @@ def shelf_choices(book_collection):
     return shelf_num
 
 
-def move_book_no_result_retry(filtered_list, book_collection):
+def move_book_no_result_retry(filtered_list: list, book_collection: list) -> list:
+    """Check if filtered list has book object(s).
+
+    Function checks if filtered list has book object(s), if not will ask the user to re-enter input, else returns
+    filtered list.
+
+    :param filtered_list: a list
+    :param book_collection: a list
+    :precondition: filtered_list is a list with book object(s)
+    :precondition: book_collect is a list with all book objects
+    :postcondition: correctly asks the user to re-enter if precondition for filtered_list is not met
+    :return: a list with book object(s)
+    """
     while not filtered_list:
         print('There are no results, please retry so we can move the book after.\n')
         filtered_list = search_book(book_collection)
