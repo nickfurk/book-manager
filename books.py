@@ -145,7 +145,19 @@ def move_book_no_result_retry(filtered_list, book_collection):
     return filtered_list
 
 
-def input_error_retry(user_input, filtered_list):
+def input_error_retry(user_input: str, filtered_list: list) -> str:
+    """Check user input string.
+
+    Function checks the user input string. If the string does not meet the user_input preconditions, then will ask
+    the user to re-enter input.
+
+    :param user_input: a string
+    :param filtered_list: a list
+    :precondition: user_input string should be numeric, not longer than the length of the filtered_list, and not "0"
+    :precondition: filtered_list is a list that includes book objects
+    :postcondition: correctly asks user to enter number again if the user_input string does not meet the precondition
+    :return: string
+    """
     while not user_input.isdigit() or int(user_input) > len(filtered_list) or user_input == "0":
         user_input = (input(f'That is an invalid input, enter number again: \n'))
     return user_input
