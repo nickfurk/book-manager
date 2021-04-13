@@ -1,4 +1,3 @@
-import io
 from book import Book
 from unittest import TestCase
 from unittest.mock import patch
