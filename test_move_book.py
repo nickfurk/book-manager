@@ -33,8 +33,21 @@ class TestMoveBook(TestCase):
         move_book(book_collection_list)
         mock_move_book_no_result_retry.assert_called_with(filtered_list, book_collection_list)
 
-    def test_move_book_verify_user_input_called(self):
-        pass
+    @patch('books.main_menu_selection')
+    @patch('books.shelf_input_retry_and_convert')
+    @patch('books.input_error_retry')
+    @patch('builtins.input')
+    @patch('books.move_book_no_result_retry')
+    @patch('books.search_book')
+    def test_move_book_input_error_retry_called(self, mock_search_book, mock_move_book_no_result_retry,
+                                                mock_input, mock_input_error_retry,
+                                                mock_shelf_input_retry_and_convert, mock_main_menu_selection):
+        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
+        book_collection_list = [book_1]
+        user_input = mock_input()
+        verify_filtered_list = mock_move_book_no_result_retry()
+        move_book(book_collection_list)
+        mock_input_error_retry.assert_called_with(user_input, verify_filtered_list)
 
     def test_move_selected_book_called(self):
         pass
