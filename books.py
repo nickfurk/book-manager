@@ -151,7 +151,22 @@ def input_error_retry(user_input, filtered_list):
     return user_input
 
 
-def shelf_input_retry_and_convert(user_shelf_input, shelf_options):
+def shelf_input_retry_and_convert(user_shelf_input: str, shelf_options: list):
+    """Check correct user input.
+
+    Function verifies if user input is among the shelf options available. If not, then function asks the user for an
+    input again. If the user input is among th shelf options, then it will convert the string input into a titled
+    string, or it will convert the string into an integer if the string is numeric. User input gets returned.
+
+    :param user_shelf_input: a string
+    :param shelf_options: a list
+    :precondition: user_shelf_input: must be a string that represents a shelf name or number
+    :precondition: shelf_options is a list of available shelf options
+    :postcondition: correctly asks the user to re-enter if prior their user_shelf_input is not in shelf_options
+    :postcondition: correctly coverts available user_shelf_input to a title string if the input is a word
+    :postcondition: correctly coverts available user_shelf_input to an integer if the string is numeric
+    :return: user input that is either an integer or a string
+    """
     while user_shelf_input not in shelf_options:
         print(f'Invalid shelf, please enter the correct shelf information.')
         user_shelf_input = (input(f'\nType your shelf preference:')).title()
@@ -160,7 +175,7 @@ def shelf_input_retry_and_convert(user_shelf_input, shelf_options):
     return user_shelf_input
 
 
-def move_book(book_collection):
+def move_book(book_collection: list):
     """Move book feature flow.
 
     Function acts as a flow for the move book feature. A series of functions are called to accomplish this.
