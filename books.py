@@ -94,12 +94,31 @@ def ask_for_query(user_chosen_category):
     return user_query
 
 
-def find_query(book_collection, user_query, user_menu_choice_category):
-    category = user_menu_choice_category.lower()
+def check_if_shelf_category(category, user_query):
     if category == "shelf" and user_query.isnumeric():
         user_query = int(user_query)
     elif category == "shelf" and user_query.isnumeric() is False:
         user_query = user_query.title()
+    return user_query
+
+
+def find_query(book_collection: list, user_query: str, user_menu_choice_category: str) -> list:
+    """Match user query in book collection and return a filtered list of object Book(s).
+
+    Function matches user query to the specify category in the book collection and returns a list of
+    books that contains the query.
+
+    :param book_collection: a list
+    :param user_query: a string
+    :param user_menu_choice_category: a string
+    :precondition: book_collection has to be a list of Book objects
+    :precondition: user_query is a string that the user is interested in searching
+    :precondition: user_menu_choice_category: a string that the user wants to search
+    :postcondition: correctly returns the filtered list of Books object(s) in a list
+    :return: a list of filtered Book object(s)
+    """
+    category = user_menu_choice_category.lower()
+    user_query = check_if_shelf_category(category, user_query)
 
     filtered_list = []
     for book in book_collection:
@@ -205,7 +224,7 @@ def input_error_retry(user_input: str, filtered_list: list) -> str:
     return user_input
 
 
-def shelf_input_retry_and_convert(user_shelf_input: str, shelf_options: list):
+def shelf_input_retry_and_convert(user_shelf_input: str, shelf_options: str):
     """Check correct user input.
 
     Function verifies if user input is among the shelf options available. If not, then function asks the user for an
@@ -284,10 +303,6 @@ def list_to_dict(book_collection: list):
         output_dict[book.id] = book.to_dict()
     dump_dict_to_file(output_dict)
 
-    # with open(JSON_FILENAME(), "w") as out_file:
-    #     dump(output_dict, out_file, indent=4)
-    # print(f'\n\u001b[33;1mData saved. See you later!\u001b[0m\n')
-
 
 def main_menu_selection(book_collection: list):
     """Main menu selection.
@@ -315,15 +330,6 @@ def main_menu_selection(book_collection: list):
         list_to_dict(book_collection)
 
 
-# def check_for_file():
-#     path = pathlib.Path("somebooks.json")
-#     if path.exists():
-#         book_collection = create_book_object()
-#         main_menu_selection(book_collection)
-#     else:
-#         book_collection = convert_excel_to_json("somebooks.xlsx")
-#         main_menu_selection(book_collection)
-
 def get_book_collection() -> list:
     """Get a list of book objects.
 
@@ -342,7 +348,6 @@ def get_book_collection() -> list:
 
 def main():
     """Execute the program"""
-    # check_for_file()
     book_collection = get_book_collection()
     main_menu_selection(book_collection)
 
