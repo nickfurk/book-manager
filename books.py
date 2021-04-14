@@ -68,10 +68,21 @@ def write_dictionary_to_file(converted_json: str):
 
 
 def convert_excel_to_json(excel_file: str) -> list:
+    """Convert excel file to json.
+
+    Function converts excel file to json and then calls write_dictionary_to_file to get
+    a list of Book objects. Returns list of Book objects.
+
+    :param excel_file: a string
+    :precondition: excel_file must a string that represents an excel file name
+    :postcondition: correctly coverts excel file data to json format
+    :return: a list of Book objects
+    """
     excel_data = pandas.read_excel(excel_file)
     converted_json = excel_data.T.to_json(indent=4)  # using transpose
+    print(f'this is converted json {converted_json}')
     book_collection = write_dictionary_to_file(converted_json)
-    print(book_collection)
+    print(f'here is the book collection {book_collection}')
     return book_collection
 
 # def convert_excel_to_json(excel_file):
