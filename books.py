@@ -111,7 +111,16 @@ def find_query(book_collection, user_query, user_menu_choice_category):
     return filtered_list
 
 
-def print_filter_list(filtered_list):
+def print_filter_list(filtered_list: list) -> list:
+    """Print filter list.
+
+    Function takes in a filtered Book object list, prints out the object as numbered list, and return the print list.
+
+    :param filtered_list: a list
+    :precondition: filtered_list is a list of filtered Book object(s)
+    :postcondition: correctly prints out the book objects in filtered_list as numbered list and return the print list
+    :return: a list
+    """
     string = f'\nNumber of results: {len(filtered_list)}\n'
     print(f'\u001b[33;1m{string}\u001b[0m')
     full_info_list = [str(book) for book in filtered_list]
