@@ -75,7 +75,18 @@ def convert_excel_to_json(excel_file):
         return book_collection
 
 
-def choice_validate(option_list):
+def choice_validate(option_list: list) -> str:
+    """Check user choice.
+
+    Function checks if user choice is from a list of available options, if available then return user choice,
+    else asks user to re-enter
+
+    :param option_list: a list
+    :precondition: option_list should be a list with available options for the user to choose from
+    :postcondition: correctly check if user input is from a list of available options, if not asks user to
+                    re-enter, else return string
+    :return: a string
+    """
     choice_list = list(enumerate(option_list, start=1))
     for choice in choice_list:
         print(f'{choice[0]}. {choice[1]}')
