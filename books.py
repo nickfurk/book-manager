@@ -60,19 +60,26 @@ def create_book_object():
     # return book_collection
 
 
-def write_dictionary_to_file(converted_json):
+def write_dictionary_to_file(converted_json: str):
     with open(JSON_FILENAME(), 'w+') as file_object:
         file_object.write(converted_json)
     book_collection = create_book_object()
     return book_collection
 
 
-def convert_excel_to_json(excel_file):
-    with open(excel_file):
-        excel_data = pandas.read_excel(excel_file)
-        converted_json = excel_data.T.to_json(indent=4)  # using transpose
-        book_collection = write_dictionary_to_file(converted_json)
-        return book_collection
+def convert_excel_to_json(excel_file: str) -> list:
+    excel_data = pandas.read_excel(excel_file)
+    converted_json = excel_data.T.to_json(indent=4)  # using transpose
+    book_collection = write_dictionary_to_file(converted_json)
+    print(book_collection)
+    return book_collection
+
+# def convert_excel_to_json(excel_file):
+#     with open(excel_file):
+#         excel_data = pandas.read_excel(excel_file)
+#         converted_json = excel_data.T.to_json(indent=4)  # using transpose
+#         book_collection = write_dictionary_to_file(converted_json)
+#         return book_collection
 
 
 def choice_validate(option_list: list) -> str:
