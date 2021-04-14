@@ -87,14 +87,32 @@ def choice_validate(option_list):
     return user_choice
 
 
-def ask_for_query(user_chosen_category):
+def ask_for_query(user_chosen_category: str) -> str:
+    """Get user input and verify input.
+
+    Function asks for user input. If user hits enter without typing anything, then will ask the user to re-enter.
+
+    :param user_chosen_category: a string
+    :precondition: user_chosen_category could be string author, title, publisher, shelf, category or subject
+    :postcondition: verifies if user input is a non-empty string, if empty then ask user to re-enter, else return string
+    :return: a string
+    """
     user_query = input(f'Enter the {user_chosen_category} you want to search: ')
     while user_query == "":
         user_query = input(f'Invalid entry, enter the {user_chosen_category} you want to search: ')
     return user_query
 
 
-def check_if_shelf_category(category, user_query):
+#ADD DOCTEST!!!!!!!!!!!!!!!!
+def check_if_shelf_category(category: str, user_query: str):
+    """Convert string to int or title string.
+
+    :param category: a string
+    :param user_query: a string
+    :precondition: category string should be "shelf"
+    :postcondition: correctly coverts the string to integer if the string is numeric, else change string to titled
+    :return: a string or an integer
+    """
     if category == "shelf" and user_query.isnumeric():
         user_query = int(user_query)
     elif category == "shelf" and user_query.isnumeric() is False:
