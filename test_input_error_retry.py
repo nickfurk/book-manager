@@ -8,8 +8,8 @@ class TestInputErrorRetry(TestCase):
 
     @patch('builtins.input')
     def test_input_error_retry_wrong_input_not_digit(self, mock_input):
-        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
-        book_2 = Book("456", "Lipra", "Coding with April", "Johnson", "10", "math", "matrix")
+        book_1 = Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")
+        book_2 = Book("456", "Lipra", "Coding with April", "Johnson", 10, "math", "matrix")
         user_input = "asdf"
         filtered_list = [book_1, book_2]
         input_error_retry(user_input, filtered_list)
@@ -17,8 +17,8 @@ class TestInputErrorRetry(TestCase):
 
     @patch('builtins.input')
     def test_input_error_retry_wrong_input_string_zero(self, mock_input):
-        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
-        book_2 = Book("456", "Lipra", "Coding with April", "Johnson", "10", "math", "matrix")
+        book_1 = Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")
+        book_2 = Book("456", "Lipra", "Coding with April", "Johnson", 10, "math", "matrix")
         user_input = "0"
         filtered_list = [book_1, book_2]
         input_error_retry(user_input, filtered_list)
@@ -26,8 +26,8 @@ class TestInputErrorRetry(TestCase):
 
     @patch('builtins.input')
     def test_input_error_retry_wrong_input_out_of_index(self, mock_input):
-        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
-        book_2 = Book("456", "Lipra", "Coding with April", "Johnson", "10", "math", "matrix")
+        book_1 = Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")
+        book_2 = Book("456", "Lipra", "Coding with April", "Johnson", 10, "math", "matrix")
         user_input = "11"
         filtered_list = [book_1, book_2]
         input_error_retry(user_input, filtered_list)
@@ -35,8 +35,8 @@ class TestInputErrorRetry(TestCase):
 
     @patch('builtins.input')
     def test_input_error_retry_correct_input(self, mock_input):
-        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
-        book_2 = Book("456", "Lipra", "Coding with April", "Johnson", "10", "math", "matrix")
+        book_1 = Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")
+        book_2 = Book("456", "Lipra", "Coding with April", "Johnson", 10, "math", "matrix")
         user_input = "1"
         filtered_list = [book_1, book_2]
         actual = input_error_retry(user_input, filtered_list)

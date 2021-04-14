@@ -14,7 +14,7 @@ class TestMoveBook(TestCase):
     @patch('books.search_book')
     def test_move_book_search_book_called(self, mock_search_book, mock_input, mock_input_error_retry,
                                           mock_shelf_input_retry_and_convert, mock_main_menu_selection):
-        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
+        book_1 = Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")
         book_collection_list = [book_1]
         move_book(book_collection_list)
         mock_search_book.assert_called_with(book_collection_list)
@@ -28,7 +28,7 @@ class TestMoveBook(TestCase):
     def test_move_book_move_book_no_result_retry_called(self, mock_search_book, mock_move_book_no_result_retry,
                                                         mock_input, mock_input_error_retry,
                                                         mock_shelf_input_retry_and_convert, mock_main_menu_selection):
-        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
+        book_1 = Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")
         book_collection_list = [book_1]
         filtered_list = mock_search_book()
         move_book(book_collection_list)
@@ -43,7 +43,7 @@ class TestMoveBook(TestCase):
     def test_move_book_input_error_retry_called(self, mock_search_book, mock_move_book_no_result_retry,
                                                 mock_input, mock_input_error_retry,
                                                 mock_shelf_input_retry_and_convert, mock_main_menu_selection):
-        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
+        book_1 = Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")
         book_collection_list = [book_1]
         user_input = mock_input()
         verify_filtered_list = mock_move_book_no_result_retry()
@@ -55,13 +55,13 @@ class TestMoveBook(TestCase):
     @patch('books.input_error_retry')
     @patch('builtins.input', side_effect=["1", "1"])
     @patch('books.move_book_no_result_retry',
-           return_value=[Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")])
+           return_value=[Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")])
     @patch('books.search_book')
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_move_selected_book_print_string(self, mock_output, mock_search_book, mock_move_book_no_result_retry,
                                              mock_input, mock_input_error_retry,
                                              mock_shelf_input_retry_and_convert, mock_main_menu_selection):
-        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
+        book_1 = Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")
         book_collection_list = [book_1]
         move_book(book_collection_list)
         selected_book = book_1
@@ -82,7 +82,7 @@ class TestMoveBook(TestCase):
     def test_move_shelf_choices_called(self, mock_search_book, mock_move_book_no_result_retry, mock_input,
                                        mock_input_error_retry, mock_shelf_choices, mock_shelf_input_retry_and_convert,
                                        mock_main_menu_selection):
-        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
+        book_1 = Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")
         book_collection_list = [book_1]
         move_book(book_collection_list)
         mock_shelf_choices.assert_called_with(book_collection_list)
@@ -98,7 +98,7 @@ class TestMoveBook(TestCase):
                                                   mock_input_error_retry, mock_shelf_choices,
                                                   mock_shelf_input_retry_and_convert,
                                                   mock_main_menu_selection):
-        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
+        book_1 = Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")
         book_collection_list = [book_1]
         move_book(book_collection_list)
         user_shelf_input = (mock_input()).title()
@@ -111,13 +111,13 @@ class TestMoveBook(TestCase):
     @patch('books.input_error_retry')
     @patch('builtins.input', side_effect=["1", "1"])
     @patch('books.move_book_no_result_retry',
-           return_value=[Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")])
+           return_value=[Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")])
     @patch('books.search_book')
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_move_shelf_update_shelf_print_string(self, mock_output, mock_search_book, mock_move_book_no_result_retry,
                                                  mock_input, mock_input_error_retry, mock_shelf_choices,
                                                  mock_shelf_input_retry_and_convert, mock_main_menu_selection):
-        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
+        book_1 = Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")
         book_collection_list = [book_1]
         move_book(book_collection_list)
         selected_book = book_1
@@ -135,7 +135,7 @@ class TestMoveBook(TestCase):
     @patch('books.search_book')
     def test_move_main_menu_selection_called(self, mock_search_book, mock_input, mock_input_error_retry,
                                           mock_shelf_input_retry_and_convert, mock_main_menu_selection):
-        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
+        book_1 = Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")
         book_collection_list = [book_1]
         move_book(book_collection_list)
         mock_main_menu_selection.assert_called_with(book_collection_list)

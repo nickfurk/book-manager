@@ -9,7 +9,7 @@ class TestPrintFilterList(TestCase):
 
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_print_filter_list(self, mock_output):
-        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
+        book_1 = Book("123", "April C", "Hacking with April", "Chris", 9, "science", "computer")
         filtered_list = [book_1]
         print_filter_list(filtered_list)
         string = f'\nNumber of results: {len(filtered_list)}\n'

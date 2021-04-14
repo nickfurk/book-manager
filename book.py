@@ -1,6 +1,6 @@
 class Book:
 
-    def __init__(self, id: str, author: str, title: str, publisher: str, shelf: str, category: str, subject: str):
+    def __init__(self, id: str, author: str, title: str, publisher: str, shelf: int, category: str, subject: str):
         self.id = id
         self.author = author
         self.title = title
