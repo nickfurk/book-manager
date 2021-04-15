@@ -21,7 +21,14 @@ def SEARCH_MENU_OPTIONS():
     return ["Author", "Title", "Publisher", "Shelf", "Category", "Subject"]
 
 
-def change_none_to_string(somebooks_dict):
+def change_none_to_string(somebooks_dict: dict) -> dict:
+    """Change None value in Publisher key to string.
+
+    :param somebooks_dict: a dictionary
+    :precondition: somebooks_dict is a dictionary that contain book information and likely to a key "Publisher"
+    :postcondition: correctly converts key Publisher value None to a string
+    :return: a dictionary that is updated with the None string
+    """
     for book_num, book_dict in somebooks_dict.items():
         if book_dict["Publisher"] is None:
             book_dict["Publisher"] = "None"
@@ -43,8 +50,20 @@ def read_from_json_file() -> list:
     return book_collection
 
 
-def create_book_object(json_string: str):
+def create_book_object(json_string: str) -> list:
+    """Create Book objects in a list.
+
+    Function takes a json string and convert it into a dictionary. The dictionary gets iterated
+    to create Book objects. Book objects are appended to a list. Return list.
+
+    :param json_string: a string
+    :precondition: json_string is the string that represents the excel data
+    :postcondition: correctly create Book objects and append it to a list
+    :return: a list with Book objects
+    """
     somebooks_dict = json.loads(json_string)
+    print(type(somebooks_dict))
+    print("above is somebooks_dict")
     updated_somebooks_dict = change_none_to_string(somebooks_dict)
 
     book_collection = []
@@ -373,7 +392,6 @@ def get_book_collection() -> list:
     path = pathlib.Path(JSON_FILENAME())
     if path.exists():
         book_collection = read_from_json_file()
-        # book_collection = create_book_object()
     else:
         book_collection = convert_excel_to_json(EXCEL_FILENAME())
     return book_collection
