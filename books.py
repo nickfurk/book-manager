@@ -209,7 +209,7 @@ def find_query(book_collection: list, user_query: str, user_menu_choice_category
     return filtered_list
 
 
-def print_filter_list(filtered_list: list) -> list:
+def print_filter_list(filtered_list: list):
     """Print filter list.
 
     Function takes in a filtered Book object list, prints out the object as numbered list, and return the print list.
@@ -225,7 +225,6 @@ def print_filter_list(filtered_list: list) -> list:
     print_list = list(enumerate(full_info_list, start=1))
     for element in print_list:
         print(f'{element[0]}. {element[1]}')
-    return print_list
 
 
 def search_book(book_collection: list) -> list:
