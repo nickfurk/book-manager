@@ -36,7 +36,6 @@ def read_from_json_file():
 
 
 def create_book_object(json_string: str):
-    # with open(JSON_FILENAME()) as file_object:
     somebooks_dict = json.loads(json_string)
 
     updated_somebooks_dict = change_none_to_string(somebooks_dict)
@@ -53,22 +52,6 @@ def create_book_object(json_string: str):
             subject=book_dict["Subject"])
         book_collection.append(book)
     return book_collection
-
-    # book_collection = []
-    # for book_num, book_dict in somebooks_dict.items():
-    #     book = Book(
-    #         id=book_num,
-    #         author=book_dict["Author"],
-    #         title=book_dict["Title"],
-    #         publisher=book_dict["Publisher"],
-    #         shelf=book_dict["Shelf"],
-    #         category=book_dict["Category"],
-    #         subject=book_dict["Subject"])
-    #     book_collection.append(book)
-    # return book_collection
-
-
-
 
 
 def convert_excel_to_json(excel_file: str) -> list:
