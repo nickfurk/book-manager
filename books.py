@@ -83,8 +83,6 @@ def create_book_object(json_string: str) -> list:
     :return: a list with Book objects
     """
     somebooks_dict = json.loads(json_string)
-    print(type(somebooks_dict))
-    print("above is somebooks_dict")
     updated_somebooks_dict = change_none_to_string(somebooks_dict)
 
     book_collection = []
@@ -429,7 +427,7 @@ def get_book_collection() -> list:
 
 def main():
     """Execute the program"""
-    doctest.testmod(verbose=True)
+    # doctest.testmod(verbose=True)
     book_collection = get_book_collection()
     main_menu_selection(book_collection)
 
