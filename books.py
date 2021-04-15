@@ -2,22 +2,38 @@ import pathlib
 import pandas
 import json
 from book import Book
-from json import dump, load
+from json import dump
 
 
-def JSON_FILENAME():
+def JSON_FILENAME() -> str:
+    """Name of the json file.
+
+    :return: a string
+    """
     return "somebooks.json"
 
 
-def EXCEL_FILENAME():
+def EXCEL_FILENAME() -> str:
+    """Name of the excel file.
+
+    :return: a string
+    """
     return "somebooks.xlsx"
 
 
-def MAIN_MENU_OPTIONS():
+def MAIN_MENU_OPTIONS() -> list:
+    """Main menu options.
+
+    :return: a list
+    """
     return ["Search for a book", "Move a book", "Quit"]
 
 
-def SEARCH_MENU_OPTIONS():
+def SEARCH_MENU_OPTIONS() -> list:
+    """Search menu options.
+
+    :return: a list
+    """
     return ["Author", "Title", "Publisher", "Shelf", "Category", "Subject"]
 
 
