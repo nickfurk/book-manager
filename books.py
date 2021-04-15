@@ -65,15 +65,8 @@ def convert_excel_to_json(excel_file: str) -> list:
     :postcondition: correctly coverts excel file data to json format
     :return: a list of Book objects
     """
-    # excel_data = pandas.read_excel(excel_file)
-    # converted_json = excel_data.T.to_json(indent=4)  # using transpose
-    # print(converted_json)
-    # book_collection = write_dictionary_to_file(converted_json)
-    # return book_collection
-
     excel_data = pandas.read_excel(excel_file)
     converted_json = excel_data.T.to_json(indent=4)  # using transpose
-    print(f'{type(converted_json)} {converted_json}')
     book_collection = create_book_object(converted_json)
     return book_collection
 
