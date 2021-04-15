@@ -1,6 +1,7 @@
 import pathlib
 import pandas
 import json
+import doctest
 from book import Book
 from json import dump
 
@@ -44,6 +45,10 @@ def change_none_to_string(somebooks_dict: dict) -> dict:
     :precondition: somebooks_dict is a dictionary that contain book information and likely to a key "Publisher"
     :postcondition: correctly converts key Publisher value None to a string
     :return: a dictionary that is updated with the None string
+
+    >>> some_dict = {"1": {"Publisher": None}}
+    >>> change_none_to_string(some_dict)
+    {'1': {'Publisher': 'None'}}
     """
     for book_num, book_dict in somebooks_dict.items():
         if book_dict["Publisher"] is None:
@@ -152,7 +157,6 @@ def ask_for_query(user_chosen_category: str) -> str:
     return user_query
 
 
-#ADD DOCTEST!!!!!!!!!!!!!!!!
 def check_if_shelf_category(category: str, user_query: str):
     """Convert string to int or title string.
 
@@ -161,6 +165,16 @@ def check_if_shelf_category(category: str, user_query: str):
     :precondition: category string should be "shelf"
     :postcondition: correctly coverts the string to integer if the string is numeric, else change string to titled
     :return: a string or an integer
+
+    >>> picked_category = "shelf"
+    >>> user_entry = "2"
+    >>> check_if_shelf_category(picked_category, user_entry)
+    2
+
+    >>> picked_category = "shelf"
+    >>> user_entry = "gaby"
+    >>> check_if_shelf_category(picked_category, user_entry)
+    'Gaby'
     """
     if category == "shelf" and user_query.isnumeric():
         user_query = int(user_query)
@@ -252,7 +266,6 @@ def shelf_choices(book_collection: list) -> list:
         shelf_num.append(book.shelf)
     print((list(set(shelf_num))))
     return shelf_num
-
 
 def move_book_no_result_retry(filtered_list: list, book_collection: list) -> list:
     """Check if filtered list has Book object(s).
@@ -415,6 +428,7 @@ def get_book_collection() -> list:
 
 def main():
     """Execute the program"""
+    doctest.testmod(verbose=True)
     book_collection = get_book_collection()
     main_menu_selection(book_collection)
 
