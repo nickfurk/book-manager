@@ -44,8 +44,8 @@ class TestMainMenuSelection(TestCase):
         self.assertEqual(mock_output.getvalue(), expected)
 
     @patch('books.choice_validate', return_value="3")
-    @patch('books.save')
-    def test_user_selects_option_3_save_is_called(self, mock_save, mock_choice_validate):
+    @patch('books.list_to_dict')
+    def test_user_selects_option_3_list_to_dict_is_called(self, mock_list_to_dict, mock_choice_validate):
         mock_list = [1, 2, 3, 4, 5]
         main_menu_selection(mock_list)
-        mock_save.assert_called_with(mock_list)
+        mock_list_to_dict.assert_called_with(mock_list)
