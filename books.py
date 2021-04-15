@@ -28,7 +28,15 @@ def change_none_to_string(somebooks_dict):
     return somebooks_dict
 
 
-def read_from_json_file():
+def read_from_json_file() -> list:
+    """Read from a json file.
+
+    Function opens and reads from a json file. It loads the file content into a string.
+    The string is passed into the function create_book_object in order to return a list
+    of Book objects.
+
+    :return: a list of Book objects
+    """
     with open(JSON_FILENAME(), "r") as file_object:
         json_string = file_object.read()
     book_collection = create_book_object(json_string)
@@ -37,7 +45,6 @@ def read_from_json_file():
 
 def create_book_object(json_string: str):
     somebooks_dict = json.loads(json_string)
-
     updated_somebooks_dict = change_none_to_string(somebooks_dict)
 
     book_collection = []
