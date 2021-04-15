@@ -267,6 +267,7 @@ def shelf_choices(book_collection: list) -> list:
     print((list(set(shelf_num))))
     return shelf_num
 
+
 def move_book_no_result_retry(filtered_list: list, book_collection: list) -> list:
     """Check if filtered list has Book object(s).
 

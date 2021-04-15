@@ -22,3 +22,19 @@ def move_book(book_collection):
     selected_book.shelf = user_shelf_input
     print(f'\n\u001b[33;1mBook shelf updated!\u001b[0m >>> {selected_book}')
     main_menu_selection(book_collection)
+
+    # def find_query(book_collection, user_query, user_menu_choice_category):
+#     category = user_menu_choice_category.lower()
+#     if category == "shelf" and user_query.isnumeric():
+#         user_query = int(user_query)
+#     elif category == "shelf" and user_query.isnumeric() is False:
+#         user_query = user_query.title()
+#
+#     filtered_list = []
+#     for book in book_collection:
+#         attr = getattr(book, category)  # to get category before the .lower
+#         if attr is not None and category != "shelf" and user_query in attr.lower():
+#             filtered_list.append(book)
+#         elif category == "shelf" and user_query == book.shelf:
+#             filtered_list.append(book)
+#     return filtered_list
