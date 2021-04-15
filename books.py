@@ -1,5 +1,6 @@
 import pathlib
 import pandas
+import json
 from book import Book
 from json import dump, load
 
@@ -27,9 +28,16 @@ def change_none_to_string(somebooks_dict):
     return somebooks_dict
 
 
-def create_book_object():
-    with open(JSON_FILENAME()) as file_object:
-        somebooks_dict = load(file_object)
+def read_from_json_file():
+    with open(JSON_FILENAME(), "r") as file_object:
+        json_string = file_object.read()
+    book_collection = create_book_object(json_string)
+    return book_collection
+
+
+def create_book_object(json_string: str):
+    # with open(JSON_FILENAME()) as file_object:
+    somebooks_dict = json.loads(json_string)
 
     updated_somebooks_dict = change_none_to_string(somebooks_dict)
 
@@ -60,11 +68,7 @@ def create_book_object():
     # return book_collection
 
 
-def write_dictionary_to_file(converted_json: str):
-    with open(JSON_FILENAME(), 'w+') as file_object:
-        file_object.write(converted_json)
-    book_collection = create_book_object()
-    return book_collection
+
 
 
 def convert_excel_to_json(excel_file: str) -> list:
@@ -78,19 +82,17 @@ def convert_excel_to_json(excel_file: str) -> list:
     :postcondition: correctly coverts excel file data to json format
     :return: a list of Book objects
     """
+    # excel_data = pandas.read_excel(excel_file)
+    # converted_json = excel_data.T.to_json(indent=4)  # using transpose
+    # print(converted_json)
+    # book_collection = write_dictionary_to_file(converted_json)
+    # return book_collection
+
     excel_data = pandas.read_excel(excel_file)
     converted_json = excel_data.T.to_json(indent=4)  # using transpose
-    print(f'this is converted json {converted_json}')
-    book_collection = write_dictionary_to_file(converted_json)
-    print(f'here is the book collection {book_collection}')
+    print(f'{type(converted_json)} {converted_json}')
+    book_collection = create_book_object(converted_json)
     return book_collection
-
-# def convert_excel_to_json(excel_file):
-#     with open(excel_file):
-#         excel_data = pandas.read_excel(excel_file)
-#         converted_json = excel_data.T.to_json(indent=4)  # using transpose
-#         book_collection = write_dictionary_to_file(converted_json)
-#         return book_collection
 
 
 def choice_validate(option_list: list) -> str:
@@ -387,7 +389,8 @@ def get_book_collection() -> list:
     """
     path = pathlib.Path(JSON_FILENAME())
     if path.exists():
-        book_collection = create_book_object()
+        book_collection = read_from_json_file()
+        # book_collection = create_book_object()
     else:
         book_collection = convert_excel_to_json(EXCEL_FILENAME())
     return book_collection
