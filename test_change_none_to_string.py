@@ -62,4 +62,3 @@ class TestChangeNoneToString(TestCase):
             }}
         actual = change_none_to_string(somebook_dict)
         self.assertEqual(type(actual), dict)
-
