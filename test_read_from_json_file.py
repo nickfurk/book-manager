@@ -16,7 +16,3 @@ class TestReadFromJsonFile(TestCase):
         with patch('builtins.open', mock_open()) as mocked_open:
             read_from_json_file()
             mock_create_book_object.assert_called_once_with('')
-
-    def test_read_from_json_file_return_list(self):
-        actual = read_from_json_file()
-        self.assertEqual(type(actual), list)
