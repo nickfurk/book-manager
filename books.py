@@ -257,6 +257,13 @@ def shelf_choices(book_collection: list) -> list:
     :preconditon: book_collection is a list of Book objects
     :postcondition: correctly return a list of Book.shelf from all the Book in book_collection
     :return: a list of book.shelf
+
+    >>> book_1 = Book("123", "April C", "Hacking with April", "Chris", 1, "science", "computer")
+    >>> book_2 = Book("456", "Lipra", "Coding with April", "Johnson", 2, "math", "matrix")
+    >>> book_list = [book_1, book_2]
+    >>> shelf_choices(book_list)
+    [1, 2]
+    [1, 2]
     """
     shelf_num = []
     for book in book_collection:
@@ -426,7 +433,7 @@ def get_book_collection() -> list:
 
 def main():
     """Execute the program"""
-    # doctest.testmod(verbose=True)
+    doctest.testmod(verbose=True)
     book_collection = get_book_collection()
     main_menu_selection(book_collection)
 
