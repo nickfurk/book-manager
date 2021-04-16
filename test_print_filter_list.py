@@ -19,4 +19,3 @@ class TestPrintFilterList(TestCase):
                    f'\u001b[32;1mCategory\u001b[0m: science, \u001b[32;1mSubject\u001b[0m: computer, ' \
                    f'\u001b[32;1mid\u001b[0m: 123 \n'
         self.assertEqual(mock_output.getvalue(), expected)
-
