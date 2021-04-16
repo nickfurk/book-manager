@@ -20,8 +20,3 @@ class TestPrintFilterList(TestCase):
                    f'\u001b[32;1mid\u001b[0m: 123 \n'
         self.assertEqual(mock_output.getvalue(), expected)
 
-    def test_print_filter_list_return_list(self):
-        book_1 = Book("123", "April C", "Hacking with April", "Chris", "9", "science", "computer")
-        filtered_list = [book_1]
-        actual = print_filter_list(filtered_list)
-        self.assertEqual(type(actual), list)
