@@ -7,7 +7,6 @@ from book import Book
 
 class TestShelfChoices(TestCase):
 
-    # COME BACK AND FIX!!!!!!!!!!!!
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_shelf_choices_print_shelf_list(self, mock_output):
         book_1 = Book("123", "April C", "Hacking with April", "Chris", 1, "science", "computer")
