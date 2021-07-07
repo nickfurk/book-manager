@@ -1,8 +1,6 @@
-# 1510-A5-Book-manager
+# Book Manager
 
-### Your name: April Cheng
-### Your student number: A01261858
+### Name: April Cheng
 
-#### ** Add any comments for me below this line **
+Command line application to manage book collection. Application allows user to search for a book by author, title, publisher, shelf, category, or subject. The user can also move book from one shelf to another.
 
-#### ** Add any comments for me above this line **
